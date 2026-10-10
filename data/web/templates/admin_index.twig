@@ -52,6 +52,7 @@
               <button type="button" class="input-group-text" style="cursor:pointer;" onclick="var i=document.getElementById('pass_user'),ic=this.querySelector('i');if(i.type==='password'){i.type='text';ic.className='bi bi-eye-slash';}else{i.type='password';ic.className='bi bi-eye';}" tabindex="-1" aria-label="Toggle password visibility"><i class="bi bi-eye"></i></button>
             </div>
           </div>
+          {% include 'turnstile.twig' %}
           <div class="d-flex justify-content-between mt-4" style="position: relative">
             <button type="submit" class="btn btn-xs-lg btn-success w-100 mt-2 mx-auto" style="max-width: 400px;" value="Login">{{ lang.login.login }}</button>
           </div>

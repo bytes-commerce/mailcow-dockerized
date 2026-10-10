@@ -1,6 +1,15 @@
 <?php
+if ((isset($_POST['login_user'], $_POST['pass_user']) || isset($_POST['verify_fido2_login'])) && !turnstile_verify($_POST['cf-turnstile-response'] ?? null)) {
+  if (isset($_POST['verify_fido2_login'])) {
+    http_response_code(403);
+    exit;
+  }
+  return;
+}
+
 // SSO Domain Admin
 if (!empty($_GET['sso_token'])) {
+  require $_SERVER['DOCUMENT_ROOT'] . '/inc/turnstile-gate.inc.php';
   $username = domain_admin_sso('check', $_GET['sso_token']);
 
   if ($username !== false) {

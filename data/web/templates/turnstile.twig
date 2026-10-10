@@ -1,0 +1,6 @@
+{% if turnstile_site_key %}
+<div class="d-flex justify-content-center mt-3">
+  <div class="cf-turnstile" data-sitekey="{{ turnstile_site_key }}" data-action="login" data-size="flexible"></div>
+</div>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{% endif %}

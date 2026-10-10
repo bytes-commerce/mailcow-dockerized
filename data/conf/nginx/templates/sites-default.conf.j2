@@ -208,6 +208,7 @@ location ^~ /Microsoft-Server-ActiveSync {
 }
 
 location ^~ /SOGo {
+    error_page 403 =302 /;
     location ~* ^/SOGo/so/.*\.(xml|js|html|xhtml)$ {
         auth_request /sogo-auth-verify;
         auth_request_set $user $upstream_http_x_user;

@@ -12,8 +12,16 @@ $session_var_pass = 'sogo-sso-pass';
 // external clients can never supply it (bare fastcgi param, not an HTTP header)
 $is_internal_auth = (($_SERVER['SOGO_AUTH_INTERNAL'] ?? '') === '1');
 
+$turnstile_web_login = false;
+$original_uri = $_SERVER['HTTP_X_ORIGINAL_URI'] ?? '';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/functions.turnstile.inc.php';
+if ($is_internal_auth && turnstile_sogo_web_request($original_uri)) {
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/prerequisites.inc.php';
+  $turnstile_web_login = turnstile_site_key() !== '';
+}
+
 // validate credentials for basic auth requests
-if ($is_internal_auth && isset($_SERVER['PHP_AUTH_USER'])) {
+if ($is_internal_auth && isset($_SERVER['PHP_AUTH_USER']) && !$turnstile_web_login) {
   // load prerequisites only when required
   require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/prerequisites.inc.php';
 
@@ -119,6 +127,12 @@ elseif ($is_internal_auth && isset($_SERVER['HTTP_X_ORIGINAL_URI']) && strcasecm
       exit;
     }
   }
+}
+
+// Configured web logins must use the protected mailcow login, not SOGo's own form.
+if ($turnstile_web_login) {
+  http_response_code(403);
+  exit;
 }
 
 // if username is empty, SOGo will use the normal login methods / login form

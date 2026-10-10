@@ -1,5 +1,13 @@
 <?php
 
+if ((isset($_POST['login_user'], $_POST['pass_user']) || isset($_POST['verify_fido2_login'])) && !turnstile_verify($_POST['cf-turnstile-response'] ?? null)) {
+  if (isset($_POST['verify_fido2_login'])) {
+    http_response_code(403);
+    exit;
+  }
+  return;
+}
+
 if (isset($_POST["verify_tfa_login"])) {
   if (verify_tfa_login($_SESSION['pending_mailcow_cc_username'], $_POST)) {
     if ($_SESSION['pending_mailcow_cc_role'] == "admin") {
@@ -82,6 +90,9 @@ if (isset($_POST["login_user"]) && isset($_POST["pass_user"])) {
 }
 
 if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == "admin" && !isset($_SESSION['mailcow_cc_api'])) {
+  if (isset($_POST['save_turnstile'])) {
+    turnstile_save($_POST);
+  }
   // TODO: Move file upload to API?
 	if (isset($_POST["submit_main_logo"])) {
     if ($_FILES['main_logo']['error'] == 0) {

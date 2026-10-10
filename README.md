@@ -40,6 +40,18 @@ Please see [the official documentation](https://docs.mailcow.email/) for install
 
 🐛 **If you found a critical security issue, please mail us to [info at servercow.de](mailto:info@servercow.de).**
 
+### Cloudflare Turnstile Login Protection
+
+Administrators can configure **Cloudflare Turnstile** under **System → Access → Cloudflare Turnstile**. Register all login hostnames in the Cloudflare widget, then save its site key and secret key. Both keys are required: with either missing, no widget or Cloudflare script is loaded and logins work as before. Leaving the secret field blank preserves the existing secret; the disable checkbox removes both keys.
+
+Verification covers customer, administrator, and domain-administrator password/passkey logins, plus SSO callbacks and domain-administrator login links. When enabled, SOGo web users must sign in through mailcow; DAV, ActiveSync, mail protocols, and existing authenticated sessions are unchanged. Restart `nginx-mailcow` when deploying this change to regenerate the SOGo redirect configuration.
+
+Keep an administrator session open while testing: invalid keys, blocked Cloudflare access, or failed verification prevent new web logins. Keys are stored in Redis; the secret is never returned to the browser. If locked out, an operator can remove the settings from the Redis primary. For a standard local Redis deployment:
+
+```sh
+docker compose exec -T redis-mailcow sh -c 'REDISCLI_AUTH="$REDISPASS" redis-cli DEL TURNSTILE_SETTINGS'
+```
+
 ## Cowmunity
 
 [mailcow community](https://community.mailcow.email)

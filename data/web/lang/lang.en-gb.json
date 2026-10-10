@@ -116,6 +116,11 @@
         "validation_success": "Validated successfully"
     },
     "admin": {
+        "turnstile_site_key": "Site key",
+        "turnstile_secret_key": "Secret key",
+        "turnstile_hint": "Protect web logins with Cloudflare Turnstile. Verification is enabled only when both keys are saved. Configure all login hostnames in your Cloudflare widget before enabling it. Invalid keys can prevent login; keep this administrator session open while testing.",
+        "turnstile_secret_saved": "A secret key is saved. Leave blank to keep it.",
+        "turnstile_clear": "Disable Turnstile and remove both keys",
         "access": "Access",
         "action": "Action",
         "activate_api": "Activate API",
@@ -416,6 +421,8 @@
         "yes": "&#10003;"
     },
     "danger": {
+        "turnstile_failed": "Turnstile verification failed. Please complete the challenge and try again.",
+        "turnstile_invalid_keys": "Invalid Turnstile keys.",
         "access_denied": "Access denied or invalid form data",
         "tfa_removal_blocked": "Two-factor authentication cannot be removed because it is required for your account.",
         "alias_domain_invalid": "Alias domain %s is invalid",
@@ -839,6 +846,7 @@
         "session_expires": "Your session will expire in about 15 seconds"
     },
     "login": {
+        "turnstile_required": "Complete the security check to continue signing in.",
         "back_to_mailcow": "Back to mailcow",
         "delayed": "Login was delayed by %s seconds.",
         "fido2_webauthn": "FIDO2/WebAuthn Login",
@@ -1130,6 +1138,7 @@
         "imap_smtp_server_auth_info": "Please use your full email address and the PLAIN authentication mechanism.<br>\r\nYour login data will be encrypted by the server-side mandatory encryption."
     },
     "success": {
+        "turnstile_saved": "Turnstile settings saved",
         "acl_saved": "ACL for object %s saved",
         "admin_added": "Administrator %s has been added",
         "admin_api_modified": "Changes to API have been saved",

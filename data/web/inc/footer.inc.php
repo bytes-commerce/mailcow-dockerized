@@ -49,6 +49,7 @@ if (array_key_exists('pending_tfa_methods', $_SESSION)) {
 
 // globals
 $globalVariables = [
+  'turnstile_site_key' => turnstile_site_key(),
   'mailcow_info' => array(
     'version_tag' => $GLOBALS['MAILCOW_GIT_VERSION'],
     'last_version_tag' => $GLOBALS['MAILCOW_LAST_GIT_VERSION'],

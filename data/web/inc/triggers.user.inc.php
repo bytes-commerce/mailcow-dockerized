@@ -1,4 +1,12 @@
 <?php
+if ((isset($_POST['login_user'], $_POST['pass_user']) || isset($_POST['verify_fido2_login'])) && !turnstile_verify($_POST['cf-turnstile-response'] ?? null)) {
+  if (isset($_POST['verify_fido2_login'])) {
+    http_response_code(403);
+    exit;
+  }
+  return;
+}
+
 // handle iam authentication
 if ($iam_provider){
   if (isset($_GET['iam_sso'])){
@@ -20,6 +28,7 @@ if ($iam_provider){
       die();
     }
   } elseif ($_GET['code'] && $_GET['state'] === $_SESSION['oauth2state']) {
+    require $_SERVER['DOCUMENT_ROOT'] . '/inc/turnstile-gate.inc.php';
     // Check given state against previously stored one to mitigate CSRF attack
     // Received access token in $_GET['code']
     // extract info and verify user

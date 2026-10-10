@@ -491,6 +491,11 @@ function recursiveBase64StrToArrayBuffer(obj) {
     // Validate FIDO2
   $("#fido2-login").click(function(){
     $('#fido2-alerts').html();
+    var turnstileToken = document.querySelector('[name="cf-turnstile-response"]');
+    if (document.querySelector('.cf-turnstile') && (!turnstileToken || !turnstileToken.value)) {
+      mailcow_alert_box(lang_danger.turnstile_failed, "danger");
+      return false;
+    }
     if (!window.fetch || !navigator.credentials || !navigator.credentials.create) {
       window.alert('Browser not supported.');
       return;
@@ -516,6 +521,9 @@ function recursiveBase64StrToArrayBuffer(obj) {
       var formData = new FormData();
       formData.append("token", AuthenticatorAttestationResponse);
       formData.append("verify_fido2_login", "true");
+      if (turnstileToken) {
+        formData.append("cf-turnstile-response", turnstileToken.value);
+      }
 
       return window.fetch(window.location.href, {method:'POST', body: formData, cache:'no-cache'});
     }).then(function(response) {

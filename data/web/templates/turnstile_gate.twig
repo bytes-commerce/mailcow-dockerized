@@ -1,0 +1,18 @@
+{% extends 'base.twig' %}
+{% block navbar %}{% endblock %}
+{% block content %}
+<div class="row mt-5">
+  <div class="col-12 col-md-6 mx-auto">
+    <div class="card">
+      <div class="card-header">{{ lang.login.login }}</div>
+      <div class="card-body">
+        <p>{{ lang.login.turnstile_required }}</p>
+        <form method="post">
+          {% include 'turnstile.twig' %}
+          <button type="submit" class="btn btn-success mt-3">{{ lang.login.login }}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

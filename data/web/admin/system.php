@@ -88,7 +88,9 @@ $f2b_data = fail2ban('get');
 $mbox_templates = mailbox('get', 'mailbox_templates');
 
 $template = 'admin.twig';
+$turnstile_settings = turnstile_settings();
 $template_data = [
+  'turnstile_settings' => array('site_key' => $turnstile_settings['site_key'], 'has_secret' => $turnstile_settings['secret_key'] !== ''),
   'tfa_data' => $tfa_data,
   'tfa_id' => @$_SESSION['tfa_id'],
   'fido2_cid' => @$_SESSION['fido2_cid'],
